@@ -1,85 +1,92 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>WLFI Countdown</title>
+  <title>Contagem Regressiva</title>
   <style>
     body {
-      margin: 0;
-      padding: 0;
       display: flex;
+      flex-direction: column;
       justify-content: center;
       align-items: center;
       height: 100vh;
-      background: linear-gradient(135deg, #1d1f21, #3b3d42);
-      color: #fff;
+      margin: 0;
       font-family: Arial, sans-serif;
+      background: #111;
+      color: white;
+      text-align: center;
+    }
+
+    h1 {
+      margin-bottom: 20px;
+      font-size: 2rem;
     }
 
     .countdown {
       display: flex;
-      flex-wrap: wrap; /* permite quebrar em telas pequenas */
-      gap: 20px;
-      text-align: center;
-      justify-content: center;
-    }
-
-    .time-box {
-      background: rgba(255, 255, 255, 0.1);
-      border-radius: 12px;
-      padding: 20px;
-      min-width: 80px;
-      flex: 1 1 100px; /* ajusta no mobile */
-    }
-
-    .time-box h1 {
+      gap: 10px;
       font-size: 2rem;
-      margin: 0;
+      justify-content: center;
+      flex-wrap: nowrap;
     }
 
-    .time-box p {
-      margin: 5px 0 0;
-      font-size: 1rem;
+    .countdown span {
+      background: #262626;
+      padding: 12px 15px;
+      border-radius: 10px;
+      min-width: 65px; /* 🔑 antes era 80px */
+      display: flex;
+      flex-direction: column;
+      align-items: center;
     }
 
-    @media (max-width: 600px) {
-      .time-box h1 {
-        font-size: 1.5rem;
+    .countdown small {
+      font-size: 0.7rem;
+      margin-top: 4px;
+      color: #bbb;
+    }
+
+    /* Ajustes para mobile */
+    @media (max-width: 480px) {
+      h1 {
+        font-size: 1.2rem;
       }
-      .time-box p {
-        font-size: 0.9rem;
+      .countdown {
+        font-size: 1.3rem; /* 🔑 menor no mobile */
+        gap: 6px; /* 🔑 menos espaço entre blocos */
+      }
+      .countdown span {
+        padding: 8px 10px; /* 🔑 blocos menores */
+        min-width: 50px;   /* 🔑 largura reduzida */
+      }
+      .countdown small {
+        font-size: 0.6rem;
       }
     }
   </style>
 </head>
 <body>
-  <div class="countdown">
-    <div class="time-box">
-      <h1 id="days">0</h1>
-      <p>Days</p>
-    </div>
-    <div class="time-box">
-      <h1 id="hours">0</h1>
-      <p>Hours</p>
-    </div>
-    <div class="time-box">
-      <h1 id="minutes">0</h1>
-      <p>Minutes</p>
-    </div>
-    <div class="time-box">
-      <h1 id="seconds">0</h1>
-      <p>Seconds</p>
-    </div>
+  <h1>Falta pouco para o grande dia!</h1>
+  <div class="countdown" id="countdown">
+    <span><div id="days">0</div><small>Dias</small></span>
+    <span><div id="hours">0</div><small>Horas</small></span>
+    <span><div id="minutes">0</div><small>Min</small></span>
+    <span><div id="seconds">0</div><small>Seg</small></span>
   </div>
 
   <script>
-    // Ajusta a data final
-    const countdownDate = new Date("2025-12-31T23:59:59").getTime();
+    // Definir data alvo
+    const targetDate = new Date("2025-12-31T23:59:59").getTime();
 
     function updateCountdown() {
       const now = new Date().getTime();
-      const distance = countdownDate - now;
+      const distance = targetDate - now;
+
+      if (distance < 0) {
+        document.getElementById("countdown").innerHTML = "Chegou o grande dia! 🎉";
+        return;
+      }
 
       const days = Math.floor(distance / (1000 * 60 * 60 * 24));
       const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
@@ -93,6 +100,7 @@
     }
 
     setInterval(updateCountdown, 1000);
+    updateCountdown();
   </script>
 </body>
 </html>
